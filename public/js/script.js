@@ -47,5 +47,20 @@ socket.on("user-disconnected",(id)=>{
     }
 })
 
+if ('geolocation' in navigator) {
+    navigator.geolocation.watchPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+        socket.emit("send-location", { latitude, longitude });
+      },
+      (error) => {
+        console.error('Error obtaining location', error);
+      }
+    );
+  } else {
+    alert('Geolocation is not supported by this browser.');
+  }
+
 
 
